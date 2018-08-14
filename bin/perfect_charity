@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "perfect/charity"
+require "pry"
+
+
+CLI.new.start
+CLI.new.user_input
