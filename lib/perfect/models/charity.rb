@@ -1,9 +1,11 @@
 class Charity
 
-  attr_accessor :name, :url
+  attr_accessor :name, :url, :summary
+
+  BASE_URL = 'https://www.charitynavigator.org/'
 
   def self.all
-    html = open('https://www.charitynavigator.org/index.cfm?bay=content.view&cpid=2203')
+    html = open("#{BASE_URL}/index.cfm?bay=content.view&cpid=2203")
     doc = Nokogiri::HTML(html.read)
     links = doc.search("div.third-inline-block div.shadedtable a")
 
@@ -17,8 +19,9 @@ class Charity
     charities
   end
 
-  def self.scrape(page_url)
-    html = Nokogiri::HTML(open(page_url))
-    html.css("div.accordion-item-bd").first.text.strip
+  def self.scrape(charity)
+    html = Nokogiri::HTML(open(BASE_URL + charity.url))
+    summary = html.css("div.accordion-item-bd").first.text.strip
+    charity.summary = summary
   end
 end
